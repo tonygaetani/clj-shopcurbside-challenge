@@ -1,6 +1,6 @@
-(defproject sandbox "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+(defproject shopcurbside "0.1.0-SNAPSHOT"
+  :description "http://challenge.shopcurbside.com"
+  :url "https://tonygaetani.com"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
