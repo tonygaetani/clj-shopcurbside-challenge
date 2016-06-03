@@ -1,7 +1,6 @@
 (ns shopcurbside.core
   (:require [clj-http.client :as client]
-            [clojure.data.json :as json])
-  (:use clojure.pprint))
+            [clojure.data.json :as json]))
 
 (defonce URL_BASE "http://challenge.shopcurbside.com")
 
