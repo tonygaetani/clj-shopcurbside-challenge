@@ -11,6 +11,9 @@
 (defn lowercase-keywordize-keys [e]
   {(->> (key e) .toLowerCase keyword) (val e)})
 
+(defn flatten-next-response [response]
+  (into [] (flatten [(:next response)])))
+
 (defn get-start-ids [sessionid]
   (->> (client/get (str URL_BASE "/start") {:headers {"Session" sessionid}})
        :body
@@ -31,7 +34,9 @@
     (let [response (get-response-for-id id sessionid)]
       (if (contains? response :secret)
         (:secret response)
-        (map #(find-secrets % sessionid) (into [] (flatten [(:next response)])))))
+        (->> response
+             flatten-next-response
+             (map #(find-secrets % sessionid)))))
     (catch Exception e
       ;; assume the exception was caused by an expired session id
       (find-secrets id (get-sessionid)))))
