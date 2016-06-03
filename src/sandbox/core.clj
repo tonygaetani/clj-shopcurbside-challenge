@@ -5,29 +5,26 @@
 (defonce URL_BASE "http://challenge.shopcurbside.com")
 
 (defn get-sessionid []
-  (->>
-   (client/get (str URL_BASE "/get-session"))
-   :body))
+  (->> (client/get (str URL_BASE "/get-session"))
+       :body))
 
-(defn smooth-keys [e]
+(defn lowercase-keywordize-keys [e]
   {(->> (key e) .toLowerCase keyword) (val e)})
 
 (defn get-start-ids [sessionid]
-  (->>
-   (client/get (str URL_BASE "/start") {:headers {"Session" sessionid}})
-   :body
-   json/read-str
-   (map smooth-keys)
-   (into {})
-   :next))
+  (->> (client/get (str URL_BASE "/start") {:headers {"Session" sessionid}})
+       :body
+       json/read-str
+       (map lowercase-keywordize-keys)
+       (into {})
+       :next))
 
 (defn get-response-for-id [id sessionid]
-  (->>
-   (client/get (str URL_BASE "/" id) {:headers {"Session" sessionid}})
-   :body
-   json/read-str
-   (map smooth-keys)
-   (into {})))
+  (->> (client/get (str URL_BASE "/" id) {:headers {"Session" sessionid}})
+       :body
+       json/read-str
+       (map lowercase-keywordize-keys)
+       (into {})))
 
 (defn find-secrets [id sessionid]
   (try
@@ -42,8 +39,7 @@
 (defn main []
   (let [sessionid (get-sessionid)
         start-ids (get-start-ids sessionid)]
-    (->>
-     start-ids
-     (map #(find-secrets % sessionid))
-     flatten
-     (filter not-empty))))
+    (->> start-ids
+         (map #(find-secrets % sessionid))
+         flatten
+         (filter not-empty))))
