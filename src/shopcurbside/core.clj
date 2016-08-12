@@ -41,7 +41,7 @@
       ;; assume the exception was caused by an expired session id
       (find-secrets id (get-sessionid)))))
 
-(defn challenge []
+(defn -main[]
   (let [sessionid (get-sessionid)
         start-ids (get-start-ids sessionid)]
     (->> start-ids
